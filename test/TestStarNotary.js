@@ -90,29 +90,41 @@ it('lets 2 users exchange stars', async () => {
 	let instance = await StarNotary.deployed()
 	let user1 = accounts[1]
 	let user2 = accounts[2]
-	let starId1 = 10
-	let starId2 = 11
+	let starId10 = 10
+	let starId11 = 11
 
 	// Create the stars
-	await instance.createStar('Star 10', starId1, { from: user1 })
-	await instance.createStar('Star 11', starId2, { from: user2 })
+	await instance.createStar('Star 10', starId10, { from: user1 })
+	await instance.createStar('Star 11', starId11, { from: user2 })
 
 	// Validate owners
-	assert.equal(await instance.ownerOf.call(starId1), user1)
-	assert.equal(await instance.ownerOf.call(starId2), user2)
+	assert.equal(await instance.ownerOf.call(starId10), user1)
+	assert.equal(await instance.ownerOf.call(starId11), user2)
 
 	// Exchange stars
-	await instance.exchangeStars(starId1, starId2, { from: user1 })
+	await instance.exchangeStars(starId10, starId11, { from: user1 })
 
 	// Validate new owners
-	assert.equal(await instance.ownerOf.call(starId1), user2)
-	assert.equal(await instance.ownerOf.call(starId2), user1)
+	assert.equal(await instance.ownerOf.call(starId10), user2)
+	assert.equal(await instance.ownerOf.call(starId11), user1)
 })
 
 it('lets a user transfer a star', async () => {
 	// 1. create a Star with different tokenId
 	// 2. use the transferStar function implemented in the Smart Contract
 	// 3. Verify the star owner changed.
+	let instance = await StarNotary.deployed()
+	let user1 = accounts[1]
+	let user2 = accounts[2]
+	let starId20 = 20
+
+	// Create the star and validate the owner
+	await instance.createStar('Star 20', starId20, { from: user1 })
+	assert.equal(await instance.ownerOf.call(starId20), user1)
+
+	// Transfer the star and validate the new owner
+	await instance.transferStar(user2, starId20, { from: user1 })
+	assert.equal(await instance.ownerOf.call(starId20), user2)
 })
 
 it('lookUptokenIdToStarInfo test', async () => {
