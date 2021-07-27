@@ -16,5 +16,5 @@ SuperStars
 STAR
 
 # Rinkeby Contract Address
-0x6407a18EfF290405b77d6773761d4788f5Ffbc57
+0xC9fbe532B8c27ac2C14A4F9ed39419A9d2e4Bd20
 ```
